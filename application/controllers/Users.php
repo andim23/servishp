@@ -124,6 +124,105 @@ class Users extends CI_Controller {
      * @param       string  $str    Input string
      * @return      string
      */
+
+    public function level()
+    {
+        $this->load->view('users/level');
+    }
+
+    public function ajax_level()
+    {
+        $response    = $this->users->get_level()->result_array();
+        $no = 1;
+        foreach($response as $row)
+        {
+            $tbody      = array();
+            $tbody[]    = $row['id'];
+            $tbody[]    = $row['name'];
+            $aksi       =   '
+                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-id="'.$row['id'].'" title="Show Data"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-id="'.$row['id'].'" title="Show Data"><i class="fa fa-times"></i></button>
+                            ';
+            $tbody[]    = $aksi;
+            $data[]     = $tbody;
+        }
+        if($response)
+        {
+            echo json_encode([
+                'data'      => $data,
+            ]);
+        }
+        else
+        {
+            echo json_encode([
+                'data'      => 0,
+            ]);
+        }
+    }
+
+    public function detail_level()
+    {
+        $id         = $this->input->get('id');
+        $response   = $this->users->get_level($id)->row();
+        echo json_encode($response);
+    }
+
+    public function add_level()
+    {
+        // VALIDASI
+        $this->form_validation->set_rules('level_add', 'Level', 'trim|required|xss_clean');
+        // PESAN
+        $this->form_validation->set_message('required', 'Maaf! <b>%s</b> Tidak Boleh Kosong');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            echo validation_errors();
+        }
+        else
+        {
+            $response   = [
+                'status'    => [
+                    'code'      => 200,
+                    'message'   => 'Berhasil Menambahkan Level',
+                ],
+                'response'  => $this->users->add_level(),
+            ];
+            echo json_encode($response);
+        }
+    }
+
+    public function update_level()
+    {
+        // VALIDASI
+        $this->form_validation->set_rules('level_update', 'Level', 'trim|required|xss_clean');
+        // PESAN
+        $this->form_validation->set_message('required', 'Maaf! <b>%s</b> Tidak Boleh Kosong');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            echo validation_errors();
+        }
+        else
+        {
+            $id         = $this->input->post('id');
+            $response   = [
+                'status'    => [
+                    'code'      => 200,
+                    'message'   => 'Berhasil Mengubah Level',
+                ],
+                'response'  => $this->users->update_level($id),
+            ];
+            echo json_encode($response);
+        }
+    }
+    
+    public function delete_level()
+    {
+        $id         = $this->input->post('id');
+        $response   = $this->users->delete_level($id);
+        echo json_encode($response);
+    }
+
     public function get_level()
     {
         $response   = $this->users->get_level()->result();

@@ -20,7 +20,7 @@ class Users_model extends CI_Model {
     // GLOBAL
 
     // USERS
-    public function get_users($id)
+    public function get_users($id = NULL)
     {
         if($id == null)
         {
@@ -87,11 +87,46 @@ class Users_model extends CI_Model {
     // USERS
 
     // USERS - LEVEL
-    public function get_level()
+    public function get_level($id = NUll)
     {
-        $this->db->select('id, name');
-        $this->db->from($this->users_level);
-        return $this->db->get();
+        if($id == NULL)
+        {
+            $this->db->select('id, name');
+            $this->db->from($this->users_level);
+            return $this->db->get();
+        }
+        else
+        {
+            $this->db->select('*');
+            $this->db->from($this->users_level);
+            $this->db->where('id', $id);
+            return $this->db->get();    
+        }
+    }
+
+    public function add_level()
+    {
+        $post   = $this->input->post();
+        $data   = [
+            'name'      => $post['level_add'],
+        ];
+        return $this->db->insert($this->users_level, $data);
+    }
+
+    public function update_level($id)
+    {
+        $post   = $this->input->post();
+        $data   = [
+            'name'      => $post['level_update'],
+        ];
+        $this->db->where('id', $id);
+        return $this->db->update($this->users_level, $data);
+    }
+
+    public function delete_level($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->delete($this->users_level);
     }
     // USERS - LEVEL
 }
