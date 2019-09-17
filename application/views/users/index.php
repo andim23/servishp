@@ -84,13 +84,13 @@
 	// CONFIG
 		var table;
 		table = $("#datatables").DataTable({
-			"ajax"			: "<?php echo base_url('users/ajax_users') ?>",
+			"ajax"			: "<?php echo base_url('users/data_users') ?>",
 			"processing"	: true,
 			"deferRender"	: true,
 		});
 		$.getJSON("<?php echo base_url('users/get_level') ?>", function(data){
 			for(var i=0; i<data.length; i++){
-				$(".level").append($('<option>', {value: data[i].id, text: data[i].name}));
+				$(".level").append($('<option>', {value: data[i].kode, text: data[i].name}));
 			}
 		});
 	// CONFIG
@@ -98,19 +98,18 @@
 	// CRUD
 		// DETAIL DATA
 		$("#datatables-data").on("click", "#detail_data", function(){
-			var id = $(this).data("id");
+			var kode = $(this).data("kode");
 			$("#updateModal").modal("show");
 			$.ajax({
 				url			: "<?php echo base_url('users/detail_users'); ?>",
 				type		: "GET",
 				dataType	: "JSON",
-				data		: {id:id},
+				data		: {kode:kode},
 				success		: (data) => {
-					console.log(data);
-					$("#id").val(data.users_id);
+					$("#kode").val(data.users_kode);
 					$("#username_update").val(data.username);
 					$("#password_old").val(data.password);
-					$("#level_update").val(data.level_id);
+					$("#level_update").val(data.level_kode);
 					$("#status_update").val(data.status);
 					$("#created").val(data.created);
 					$("#updated").val(data.updated);
@@ -173,10 +172,10 @@
 		// UPDATE DATA
 		// DELETE DATA
 		$("#datatables-data").on("click", "#delete_data", function(){
-			var id = $(this).data("id");
+			var kode = $(this).data("kode");
 			swal({
 				title: "Are you Sure?",
-				text: "Remove Id "+id,
+				text: "Remove Id "+kode,
 				icon: "warning",
 				buttons:{
 					cancel: {
@@ -194,7 +193,7 @@
 					$.ajax({
 						url			: "<?php echo base_url('users/delete_users'); ?>",
 						type		: "POST",
-						data		: {id:id},
+						data		: {kode:kode},
 						success		: (res) => {
 							swal({
 								title: "Success",

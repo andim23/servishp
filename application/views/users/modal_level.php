@@ -36,13 +36,9 @@
             <?php echo form_open('', array('id' => 'form_update')); ?>
             <div id="error_update"></div>
             <div class="modal-body">
-                <input type="hidden" class="id" id="id" name="id">
+                <input type="hidden" id="kode" name="kode">
                 <div class="form-group">
-                    <label>Kode</label>
-                    <input type="text" class="form-control id" name="id_update" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Username</label>
+                    <label>Level</label>
                     <input type="text" class="form-control" id="level_update" name="level_update" >
                 </div>
                 <div class="row">

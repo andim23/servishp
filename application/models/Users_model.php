@@ -10,19 +10,19 @@ class Users_model extends CI_Model {
     public function full_users()
     {
         $this->db->select('
-            ul.id, ul.name AS level_name,
-            u.id AS users_id, u.username, u.password, u.level_id, u.status
+            u.id, u.kode, u.username, u.status,
+            ul.name
         ');
-        $this->db->from('users_level AS ul');
-        $this->db->join('users AS u', 'u.level_id = ul.id');
+        $this->db->from('users AS u');
+        $this->db->join('users_level AS ul', 'ul.kode = u.level_kode');
         return $this->db->get();
     }
     // GLOBAL
 
     // USERS
-    public function get_users($id = NULL)
+    public function get_users($kode)
     {
-        if($id == null)
+        if($kode == null)
         {
             $this->db->select('*');
             $this->db->from($this->users);
@@ -31,12 +31,12 @@ class Users_model extends CI_Model {
         else
         {
             $this->db->select('
-                ul.id, ul.name AS level_name,
-                u.id AS users_id, u.username, u.password, u.level_id, u.status, u.created, u.updated
+                u.id, u.`kode` AS users_kode, u.`username`, u.`password`, u.`status`, u.`created`, u.`updated`,
+                ul.`kode` AS level_kode, ul.`name`
             ');
-            $this->db->from('users_level AS ul');
-            $this->db->join('users AS u', 'u.level_id = ul.id');
-            $this->db->where('u.id', $id);
+            $this->db->from('users AS u');
+            $this->db->join('users_level AS ul', 'ul.kode = u.level_kode');
+            $this->db->where('u.kode', $kode);
             return $this->db->get();
         }
     }
@@ -44,26 +44,27 @@ class Users_model extends CI_Model {
     public function add_users()
     {
         $post = $this->input->post();
+        $this->db->set('kode', 'UUID()', FALSE);
         $data = [
             'username'          => $post['username_add'],
             'password'          => password_hash($post['password_add'], PASSWORD_BCRYPT),
-            'level_id'          => $post['level_add'],
+            'level_kode'        => $post['level_add'],
             'status'            => $post['status_add']
         ];
         return $this->db->insert($this->users, $data);
     }
 
-    public function update_users($id)
+    public function update_users($kode)
     {
         $post   = $this->input->post();
         if($post['password_update'] == null)
         {
             $data   = [
                 'username'      => $post['username_update'],
-                'level_id'      => $post['level_update'],
+                'level_kode'    => $post['level_update'],
                 'status'        => $post['status_update']
             ];
-            $this->db->where('id', $id);
+            $this->db->where('kode', $kode);
             return $this->db->update($this->users, $data);
         }
         else
@@ -71,27 +72,27 @@ class Users_model extends CI_Model {
             $data   = [
                 'username'      => $post['username_update'],
                 'password'      => password_hash($post['password_update'], PASSWORD_BCRYPT),
-                'level_id'      => $post['level_update'],
+                'level_kode'    => $post['level_update'],
                 'status'        => $post['status_update']
             ];
-            $this->db->where('id', $id);
+            $this->db->where('kode', $kode);
             return $this->db->update($this->users, $data);
         }
     }
 
-    public function delete_users($id)
+    public function delete_users($kode)
     {
-        $this->db->where('id', $id);
+        $this->db->where('kode', $kode);
         return $this->db->delete($this->users);
     }
     // USERS
 
     // USERS - LEVEL
-    public function get_level($id = NUll)
+    public function get_level($kode = NUll)
     {
-        if($id == NULL)
+        if($kode == NULL)
         {
-            $this->db->select('id, name');
+            $this->db->select('*');
             $this->db->from($this->users_level);
             return $this->db->get();
         }
@@ -99,7 +100,7 @@ class Users_model extends CI_Model {
         {
             $this->db->select('*');
             $this->db->from($this->users_level);
-            $this->db->where('id', $id);
+            $this->db->where('kode', $kode);
             return $this->db->get();    
         }
     }
@@ -107,25 +108,26 @@ class Users_model extends CI_Model {
     public function add_level()
     {
         $post   = $this->input->post();
+        $this->db->set('kode', 'UUID()', FALSE);
         $data   = [
             'name'      => $post['level_add'],
         ];
         return $this->db->insert($this->users_level, $data);
     }
 
-    public function update_level($id)
+    public function update_level($kode)
     {
         $post   = $this->input->post();
         $data   = [
             'name'      => $post['level_update'],
         ];
-        $this->db->where('id', $id);
+        $this->db->where('kode', $kode);
         return $this->db->update($this->users_level, $data);
     }
 
-    public function delete_level($id)
+    public function delete_level($kode)
     {
-        $this->db->where('id', $id);
+        $this->db->where('kode', $kode);
         return $this->db->delete($this->users_level);
     }
     // USERS - LEVEL

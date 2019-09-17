@@ -22,7 +22,9 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Level</label>
-                            <select class="form-control level" id="level_add" name="level_add" ></select>
+                            <select class="form-control level" id="level_add" name="level_add" >
+                                <option value="">--- Pilih Level ---</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -58,7 +60,7 @@
             <?php echo form_open('', array('id' => 'form_update')); ?>
             <div id="error_update"></div>
             <div class="modal-body">
-                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="kode" name="kode">
                 <div class="form-group">
                     <label>Username</label>
                     <input type="text" class="form-control" id="username_update" name="username_update" >
@@ -73,7 +75,9 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Level</label>
-                            <select class="form-control level" id="level_update" name="level_update" ></select>
+                            <select class="form-control level" id="level_update" name="level_update" >
+                                <option value="">--- Pilih Level ---</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">

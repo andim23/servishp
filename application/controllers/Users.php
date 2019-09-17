@@ -14,7 +14,7 @@ class Users extends CI_Controller {
         $this->load->view('users/index');
     }
 
-    public function ajax_users()
+    public function data_users()
     {
         $response    = $this->users->full_users()->result_array();
         $no = 1;
@@ -23,11 +23,11 @@ class Users extends CI_Controller {
             $tbody      = array();
             $tbody[]    = $no++;
             $tbody[]    = $row['username'];
-            $tbody[]    = $row['level_name'];
+            $tbody[]    = $row['name'];
             $tbody[]    = $row['status'];
             $aksi       =   '
-                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-id="'.$row['users_id'].'" title="Show Data"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-id="'.$row['users_id'].'" title="Show Data"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-kode="'.$row['kode'].'" title="Delete Data"><i class="fa fa-times"></i></button>
                             ';
             $tbody[]    = $aksi;
             $data[]     = $tbody;
@@ -48,8 +48,8 @@ class Users extends CI_Controller {
 
     public function detail_users()
     {
-        $id         = $this->input->get('id');
-        $response   = $this->users->get_users($id)->row();
+        $kode       = $this->input->get('kode');
+        $response   = $this->users->get_users($kode)->row();
         echo json_encode($response);
     }
 
@@ -98,13 +98,13 @@ class Users extends CI_Controller {
         }
         else
         {
-            $id         = $this->input->post('id');
+            $kode       = $this->input->post('kode');
             $response   = [
                 'status'    => [
                     'code'      => 200,
                     'message'   => 'Berhasil Mengubah Users',
                 ],
-                'response'  => $this->users->update_users($id),
+                'response'  => $this->users->update_users($kode),
             ];
             echo json_encode($response);
         }
@@ -112,36 +112,29 @@ class Users extends CI_Controller {
     
     public function delete_users()
     {
-        $id         = $this->input->post('id');
-        $response   = $this->users->delete_users($id);
+        $kode       = $this->input->post('kode');
+        $response   = $this->users->delete_users($kode);
         echo json_encode($response);
     }
 
     // LEVEL
-    /**
-     * Encodes string for use in XML
-     *
-     * @param       string  $str    Input string
-     * @return      string
-     */
-
     public function level()
     {
         $this->load->view('users/level');
     }
 
-    public function ajax_level()
+    public function data_level()
     {
         $response    = $this->users->get_level()->result_array();
         $no = 1;
         foreach($response as $row)
         {
             $tbody      = array();
-            $tbody[]    = $row['id'];
+            $tbody[]    = $no++;
             $tbody[]    = $row['name'];
             $aksi       =   '
-                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-id="'.$row['id'].'" title="Show Data"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-id="'.$row['id'].'" title="Show Data"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-times"></i></button>
                             ';
             $tbody[]    = $aksi;
             $data[]     = $tbody;
@@ -162,8 +155,8 @@ class Users extends CI_Controller {
 
     public function detail_level()
     {
-        $id         = $this->input->get('id');
-        $response   = $this->users->get_level($id)->row();
+        $kode       = $this->input->get('kode');
+        $response   = $this->users->get_level($kode)->row();
         echo json_encode($response);
     }
 
@@ -204,13 +197,13 @@ class Users extends CI_Controller {
         }
         else
         {
-            $id         = $this->input->post('id');
+            $kode       = $this->input->post('kode');
             $response   = [
                 'status'    => [
                     'code'      => 200,
                     'message'   => 'Berhasil Mengubah Level',
                 ],
-                'response'  => $this->users->update_level($id),
+                'response'  => $this->users->update_level($kode),
             ];
             echo json_encode($response);
         }
@@ -218,8 +211,8 @@ class Users extends CI_Controller {
     
     public function delete_level()
     {
-        $id         = $this->input->post('id');
-        $response   = $this->users->delete_level($id);
+        $kode       = $this->input->post('kode');
+        $response   = $this->users->delete_level($kode);
         echo json_encode($response);
     }
 

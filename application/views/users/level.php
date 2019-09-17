@@ -80,7 +80,7 @@
 	// CONFIG
 		var table;
 		table = $("#datatables").DataTable({
-			"ajax"			: "<?php echo base_url('users/ajax_level') ?>",
+			"ajax"			: "<?php echo base_url('users/data_level') ?>",
 			"processing"	: true,
 			"deferRender"	: true,
 		});
@@ -89,16 +89,15 @@
 	// CRUD
 		// DETAIL DATA
 		$("#datatables-data").on("click", "#detail_data", function(){
-			var id = $(this).data("id");
+			var kode = $(this).data("kode");
 			$("#updateModal").modal("show");
 			$.ajax({
 				url			: "<?php echo base_url('users/detail_level'); ?>",
 				type		: "GET",
 				dataType	: "JSON",
-				data		: {id:id},
+				data		: {kode:kode},
 				success		: (data) => {
-					console.log(data);
-					$(".id").val(data.id);
+					$("#kode").val(data.kode);
 					$("#level_update").val(data.name);
 					$("#created").val(data.created);
 					$("#updated").val(data.updated);
@@ -161,10 +160,9 @@
 		// UPDATE DATA
 		// DELETE DATA
 		$("#datatables-data").on("click", "#delete_data", function(){
-			var id = $(this).data("id");
+			var kode = $(this).data("kode");
 			swal({
 				title: "Are you Sure?",
-				text: "Remove Id "+id,
 				icon: "warning",
 				buttons:{
 					cancel: {
@@ -182,7 +180,7 @@
 					$.ajax({
 						url			: "<?php echo base_url('users/delete_level'); ?>",
 						type		: "POST",
-						data		: {id:id},
+						data		: {kode:kode},
 						success		: (res) => {
 							swal({
 								title: "Success",

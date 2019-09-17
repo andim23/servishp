@@ -8,6 +8,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="<?php echo base_url('pegawai') ?>" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Pegawai</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a data-toggle="collapse" href="#users">
                     <i class="fas fa-user"></i>
                     <p>Users</p>
