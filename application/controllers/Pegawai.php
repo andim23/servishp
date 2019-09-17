@@ -22,12 +22,12 @@ class Pegawai extends CI_Controller {
         {
             $tbody      = array();
             $tbody[]    = $no++;
-            $tbody[]    = $row['username'];
-            $tbody[]    = $row['level_name'];
-            $tbody[]    = $row['status'];
+            $tbody[]    = $row['nama'];
+            $tbody[]    = $row['jenis_kelamin'];
+            $tbody[]    = $row['tempat'];
             $aksi       =   '
-                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-id="'.$row['users_id'].'" title="Show Data"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-id="'.$row['users_id'].'" title="Show Data"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-times"></i></button>
                             ';
             $tbody[]    = $aksi;
             $data[]     = $tbody;
@@ -48,14 +48,16 @@ class Pegawai extends CI_Controller {
 
     public function detail()
     {
-
+        $kode       = $this->input->get('kode');
+        $response   = $this->pegawai->get_pegawai($kode)->row();
+        echo json_encode($response);
     }
 
     public function add()
     {
         // VALIDASI
-        $this->form_validation->set_rules('users_add', 'Username', 'trim|required|is_unique[pegawai.users_id]|xss_clean');
-        $this->form_validation->set_rules('nama_add', 'Nama', 'trim|required|min_length[3]|xss_clean');
+        $this->form_validation->set_rules('users_add', 'Username', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('nama_add', 'Nama', 'trim|required|xss_clean');
         $this->form_validation->set_rules('jenis_kelamin_add', 'Jenis Kelamin', 'trim|required|xss_clean');
         $this->form_validation->set_rules('tempat_add', 'Tempat Lahir', 'trim|required|xss_clean');
         $this->form_validation->set_rules('tanggal_lahir_add', 'Tanggal Lahir', 'trim|required|xss_clean');
@@ -86,11 +88,41 @@ class Pegawai extends CI_Controller {
 
     public function update()
     {
-        echo $this->uuid->v4();
+        // VALIDASI
+        $this->form_validation->set_rules('users_update', 'Username', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('nama_update', 'Nama', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('jenis_kelamin_update', 'Jenis Kelamin', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('tempat_update', 'Tempat Lahir', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('tanggal_lahir_update', 'Tanggal Lahir', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('agama_update', 'Agama', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('alamat_update', 'Alamat Kelamin', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('no_telp_update', 'No Telp', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('status_update', 'Status', 'trim|required|xss_clean');
+        // PESAN
+        $this->form_validation->set_message('required', 'Maaf! <b>%s</b> Tidak Boleh Kosong');
+
+        if($this->form_validation->run() == FALSE)
+        {
+            echo validation_errors();
+        }
+        else
+        {
+            $kode       = $this->input->post('kode');
+            $response   = [
+                'status'    => [
+                    'code'      => 200,
+                    'message'   => 'Berhasil Mengubah Pegawai',
+                ],
+                'response'  => $this->pegawai->update_pegawai($kode),
+            ];
+            echo json_encode($response);
+        }
     }
 
     public function delete()
     {
-
+        $kode       = $this->input->post('kode');
+        $response   = $this->pegawai->delete_pegawai($kode);
+        echo  json_encode($response);
     }
 }

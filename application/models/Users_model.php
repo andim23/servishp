@@ -20,7 +20,7 @@ class Users_model extends CI_Model {
     // GLOBAL
 
     // USERS
-    public function get_users($kode)
+    public function get_users($kode = null)
     {
         if($kode == null)
         {

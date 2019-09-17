@@ -8,14 +8,16 @@ class Pegawai_model extends CI_Model {
     // GLOBAL
     public function full_pegawai()
     {
-        
+        $this->db->select('*');
+        $this->db->from($this->profil);
+        return $this->db->get();
     }
     // GLOBAL
 
     // CRUD
-    public function get_pegawai($id = null)
+    public function get_pegawai($kode = null)
     {
-        if($id == null)
+        if($kode == null)
         {
             $this->db->select('*');
             $this->db->from($this->profil);
@@ -25,7 +27,7 @@ class Pegawai_model extends CI_Model {
         {
             $this->db->select('*');
             $this->db->from($this->profil);
-            $this->db->where('id', $id);
+            $this->db->where('kode', $kode);
             return $this->db->get();
         }
     }
@@ -33,8 +35,9 @@ class Pegawai_model extends CI_Model {
     public function add_pegawai()
     {
         $post   = $this->input->post();
+        $this->db->set('kode', 'UUID()', FALSE);
         $data   = [
-            'users_id'          => $post['users_add'],
+            'users_kode'        => $post['users_add'],
             'nama'              => $post['nama_add'],
             'jenis_kelamin'     => $post['jenis_kelamin_add'],
             'tempat'            => $post['tempat_add'],
@@ -47,11 +50,11 @@ class Pegawai_model extends CI_Model {
         return $this->db->insert($this->profil, $data);
     }
 
-    public function update_pegawai($id)
+    public function update_pegawai($kode)
     {
         $post   = $this->input->post();
         $data   = [
-            'users_id'          => $post['users_update'],
+            'users_kode'        => $post['users_update'],
             'nama'              => $post['nama_update'],
             'jenis_kelamin'     => $post['jenis_kelamin_update'],
             'tempat'            => $post['tempat_update'],
@@ -61,13 +64,13 @@ class Pegawai_model extends CI_Model {
             'no_telp'           => $post['no_telp_update'],
             'status'            => $post['status_update'],
         ];
-        $this->db->where('id', $id);
+        $this->db->where('kode', $kode);
         return $this->db->update($this->profil, $data);
     }
 
-    public function delete_pegawai($id)
+    public function delete_pegawai($kode)
     {
-        $this->db->where('id', $id);
+        $this->db->where('kode', $kode);
         return $this->db->delete($this->profil);
     }
     // CRUD

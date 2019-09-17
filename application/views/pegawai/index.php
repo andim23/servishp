@@ -83,33 +83,50 @@
 	$(document).ready(function(){
 	// CONFIG
 		var table;
-		// table = $("#datatables").DataTable({
-		// 	"ajax"			: "<?php echo base_url('pegawai/ajax_users') ?>",
-		// 	"processing"	: true,
-		// 	"deferRender"	: true,
-		// });
-		$('.datepicker').datepicker();
+		table = $("#datatables").DataTable({
+			"ajax"			: "<?php echo base_url('pegawai/data') ?>",
+			"processing"	: true,
+			"deferRender"	: true,
+		});
+		$('.datepicker').datepicker({
+			format: "yyyy-mm-dd",
+			todayHighlight: true,
+			autoclose: true,
+			endDate: "<?php echo date('Y-m-d'); ?>"
+		});
+		$.getJSON("<?php echo base_url('users/get_users'); ?>", (data) => {
+			for(var i=0; i<data.length; i++){
+				$(".users").append($('<option>', {value: data[i].kode, text: data[i].username}));
+			}
+		});
+		$.getJSON("<?php echo base_url('globals/get_kota'); ?>", (data) => {
+			for(var i=0; i<data.length; i++){
+				$(".tempat").append($('<option>', {value: data[i].id, text: data[i].name}));
+			}
+		});
 	// CONFIG
 
 	// CRUD
 		// DETAIL DATA
 		$("#datatables-data").on("click", "#detail_data", function(){
-			var id = $(this).data("id");
+			var kode = $(this).data("kode");
 			$("#updateModal").modal("show");
 			$.ajax({
-				url			: "<?php echo base_url('pegawai/detail_users'); ?>",
+				url			: "<?php echo base_url('pegawai/detail'); ?>",
 				type		: "GET",
 				dataType	: "JSON",
-				data		: {id:id},
+				data		: {kode:kode},
 				success		: (data) => {
-					console.log(data);
-					$("#id").val(data.users_id);
-					$("#username_update").val(data.username);
-					$("#password_old").val(data.password);
-					$("#level_update").val(data.level_id);
+					$("#kode").val(data.kode);
+					$("#users_update").val(data.users_kode);
+					$("#nama_update").val(data.nama);
+					$("#jenis_kelamin_update").val(data.jenis_kelamin);
+					$("#tempat_update").val(data.tempat);
+					$("#tanggal_lahir_update").val(data.tanggal_lahir);
+					$("#alamat_update").val(data.alamat);
+					$("#agama_update").val(data.agama);
+					$("#no_telp_update").val(data.no_telp);
 					$("#status_update").val(data.status);
-					$("#created").val(data.created);
-					$("#updated").val(data.updated);
 				},
 				error		: (err)	=> {
 					alert(err);
@@ -121,13 +138,13 @@
 		$("#form_add").on("submit", function(e){
 			e.preventDefault();
 			$.ajax({
-				url			: "<?php echo base_url('pegawai/add_users'); ?>",
+				url			: "<?php echo base_url('pegawai/add'); ?>",
 				type		: "POST",
 				dataType	: "JSON",
 				data		: $(this).serialize(),
 				success		: (data) => {
 					$("#addModal").modal("hide");
-					$("input, select").val("");
+					$("input, select, textarea").val("");
 					$("#error_add").empty();
 					swal({
 						icon	: "success",
@@ -146,7 +163,7 @@
 		$("#form_update").on("submit", function(e){
 			e.preventDefault();
 			$.ajax({
-				url			: "<?php echo base_url('pegawai/update_users'); ?>",
+				url			: "<?php echo base_url('pegawai/update'); ?>",
 				type		: "POST",
 				dataType	: "JSON",
 				data		: $(this).serialize(),
@@ -169,10 +186,9 @@
 		// UPDATE DATA
 		// DELETE DATA
 		$("#datatables-data").on("click", "#delete_data", function(){
-			var id = $(this).data("id");
+			var kode = $(this).data("kode");
 			swal({
 				title: "Are you Sure?",
-				text: "Remove Id "+id,
 				icon: "warning",
 				buttons:{
 					cancel: {
@@ -188,9 +204,9 @@
 			}).then((isConfirm) => {
 				if (isConfirm) {
 					$.ajax({
-						url			: "<?php echo base_url('pegawai/delete_users'); ?>",
+						url			: "<?php echo base_url('pegawai/delete'); ?>",
 						type		: "POST",
-						data		: {id:id},
+						data		: {kode:kode},
 						success		: (res) => {
 							swal({
 								title: "Success",

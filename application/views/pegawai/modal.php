@@ -12,7 +12,9 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Username</label>
-                    <select class="form-control" id="users_add" name="users_add"></select>
+                    <select class="form-control users" id="users_add" name="users_add">
+                        <option value="">--- Pilih Username ---</option>
+                    </select>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
@@ -36,7 +38,9 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Tempat Lahir</label>
-                            <input type="text" class="form-control" id="nama_add" name="nama_add" placeholder="Nama Lengkap">
+                            <select class="form-control tempat" id="tempat_add" name="tempat_add">
+                                <option value="">--- Pilih Tempat Lahir ---</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -46,21 +50,38 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <textarea cols="30" rows="2" class="form-control" id="alamat_add" name="alamat_add"></textarea>
+                </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
-                            <label>Level</label>
-                            <select class="form-control level" id="level_add" name="level_add" ></select>
+                            <label>Agama</label>
+                            <select class="form-control agama" id="agama_add" name="agama_add">
+                                <option value="">--- Pilih Agama ---</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>No Telp</label>
+                            <input type="number" class="form-control" id="no_telp_add" name="no_telp_add" min="0">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <label>Status</label>
-                            <select class="form-control" id="status_add" name="status_add" >
+                            <select class="form-control status" id="status_add" name="status_add">
                                 <option value="">--- Pilih Status ---</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Tidak Aktif">Tidak Aktif</option>
+                                <option value="Belum Kawin">Belum Kawin</option>
+                                <option value="Kawin">Kawin</option>
                             </select>
                         </div>
                     </div>
@@ -87,31 +108,27 @@
             <?php echo form_open('', array('id' => 'form_update')); ?>
             <div id="error_update"></div>
             <div class="modal-body">
-                <input type="hidden" id="id" name="id">
+                <input type="hidden" id="kode" name="kode">
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" class="form-control" id="username_update" name="username_update" >
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" id="password_update" name="password_update" placeholder="Password Minimal 3 Karakter">
-                    <input type="hidden" class="form-control" id="password_old" name="password_old" >
-                    <small>Jika tidak ingin merubah <b>PASSWORD</b> harap untuk <b>DIKOSONGKAN</b>.</small>
+                    <select class="form-control users" id="users_update" name="users_update">
+                        <option value="">--- Pilih Username ---</option>
+                    </select>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Level</label>
-                            <select class="form-control level" id="level_update" name="level_update" ></select>
+                            <label>Nama</label>
+                            <input type="text" class="form-control" id="nama_update" name="nama_update" placeholder="Nama Lengkap">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Status</label>
-                            <select class="form-control" id="status_update" name="status_update" >
-                                <option value="">--- Pilih Status ---</option>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Tidak Aktif">Tidak Aktif</option>
+                            <label>Jenis Kelamin</label>
+                            <select class="form-control" id="jenis_kelamin_update" name="jenis_kelamin_update">
+                                <option value="">--- Pilih Jenis Kelamin</option>
+                                <option value="Pria">Pria</option>
+                                <option value="Wanita">Wanita</option>
                             </select>
                         </div>
                     </div>
@@ -119,14 +136,52 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Created</label>
-                            <input type="text" class="form-control" name="created" id="created" readonly>
+                            <label>Tempat Lahir</label>
+                            <select class="form-control tempat" id="tempat_update" name="tempat_update">
+                                <option value="">--- Pilih Tempat Lahir ---</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Terakhir Diubah</label>
-                            <input type="text" class="form-control" name="updated" id="updated" readonly>
+                            <label>Tanggal Lahir</label>
+                            <input type="text" class="form-control datepicker" id="tanggal_lahir_update" name="tanggal_lahir_update" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <textarea cols="30" rows="2" class="form-control" id="alamat_update" name="alamat_update"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Agama</label>
+                            <select class="form-control agama" id="agama_update" name="agama_update">
+                                <option value="">--- Pilih Agama ---</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Katolik">Katolik</option>
+                                <option value="Budha">Budha</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>No Telp</label>
+                            <input type="number" class="form-control" id="no_telp_update" name="no_telp_update" min="0">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control status" id="status_update" name="status_update">
+                                <option value="">--- Pilih Status ---</option>
+                                <option value="Belum Kawin">Belum Kawin</option>
+                                <option value="Kawin">Kawin</option>
+                            </select>
                         </div>
                     </div>
                 </div>
