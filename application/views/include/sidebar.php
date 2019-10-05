@@ -35,6 +35,18 @@
                 </div>
             </li>
             <li class="nav-item">
+                <a href="<?php echo base_url('merk') ?>" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Merk</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo base_url('kerusakan') ?>" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Kerusakan</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a data-toggle="collapse" href="#maps">
                     <i class="fas fa-map-marker-alt"></i>
                     <p>Maps</p>

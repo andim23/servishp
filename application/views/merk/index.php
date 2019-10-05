@@ -22,11 +22,11 @@
 					<div class="page-inner py-5">
 						<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
 							<div>
-								<h2 class="text-white pb-2 fw-bold">Users</h2>
-								<h5 class="text-white op-7 mb-2">Data Users</h5>
+								<h2 class="text-white pb-2 fw-bold">Merk</h2>
+								<h5 class="text-white op-7 mb-2">Data Merk</h5>
 							</div>
 							<div class="ml-md-auto py-2 py-md-0">
-								<a href="#" class="btn btn-primary btn-round" data-toggle="modal" data-target="#addModal" class="btn btn-secondary btn-round">Add Users</a>
+								<a href="#" class="btn btn-primary btn-round" data-toggle="modal" data-target="#addModal" class="btn btn-secondary btn-round">Add Merk</a>
 							</div>
 						</div>
 					</div>
@@ -36,7 +36,7 @@
 						<div class="col-lg-12">
 							<div class="card">
 								<div class="card-header">
-									<div class="card-title">Data Users</div>
+									<div class="card-title">Data Merk</div>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
@@ -44,18 +44,14 @@
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Username</th>
-													<th>Level</th>
-													<th>Status</th>
+													<th>Name</th>
 													<th>Action</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
 													<th>#</th>
-													<th>Username</th>
-													<th>Level</th>
-													<th>Status</th>
+													<th>Name</th>
 													<th>Action</th>
 												</tr>
 											</tfoot>
@@ -74,7 +70,7 @@
 		</div>
 
 		<!-- MODAL -->
-		<?php $this->load->view('users/modal'); ?>
+		<?php $this->load->view('merk/modal'); ?>
 		<!-- MODAL -->
     </div>
     <!-- JAVASCRIPT -->
@@ -84,14 +80,9 @@
 	// CONFIG
 		var table;
 		table = $("#datatables").DataTable({
-			"ajax"			: "<?php echo base_url('users/data_users') ?>",
+			"ajax"			: "<?php echo base_url('merk/data') ?>",
 			"processing"	: true,
 			"deferRender"	: true,
-		});
-		$.getJSON("<?php echo base_url('users/get_level') ?>", function(data){
-			for(var i=0; i<data.length; i++){
-				$(".level").append($('<option>', {value: data[i].kode, text: data[i].name}));
-			}
 		});
 	// CONFIG
 
@@ -101,18 +92,13 @@
 			var kode = $(this).data("kode");
 			$("#updateModal").modal("show");
 			$.ajax({
-				url			: "<?php echo base_url('users/detail_users'); ?>",
+				url			: "<?php echo base_url('merk/detail'); ?>",
 				type		: "GET",
 				dataType	: "JSON",
 				data		: {kode:kode},
 				success		: (data) => {
-					$("#kode").val(data.users_kode);
-					$("#username_update").val(data.username);
-					$("#password_old").val(data.password);
-					$("#level_update").val(data.level_kode);
-					$("#status_update").val(data.status);
-					$("#created").val(data.created);
-					$("#updated").val(data.updated);
+					$("#kode").val(data.kode);
+					$("#merk_update").val(data.name);
 				},
 				error		: (err)	=> {
 					alert(err);
@@ -124,13 +110,13 @@
 		$("#form_add").on("submit", function(e){
 			e.preventDefault();
 			$.ajax({
-				url			: "<?php echo base_url('users/add_users'); ?>",
+				url			: "<?php echo base_url('merk/add'); ?>",
 				type		: "POST",
 				dataType	: "JSON",
 				data		: $(this).serialize(),
 				success		: (data) => {
 					$("#addModal").modal("hide");
-					$("input, select").val("");
+					$("input, select, textarea").val("");
 					$("#error_add").empty();
 					swal({
 						icon	: "success",
@@ -149,7 +135,7 @@
 		$("#form_update").on("submit", function(e){
 			e.preventDefault();
 			$.ajax({
-				url			: "<?php echo base_url('users/update_users'); ?>",
+				url			: "<?php echo base_url('merk/update'); ?>",
 				type		: "POST",
 				dataType	: "JSON",
 				data		: $(this).serialize(),
@@ -190,7 +176,7 @@
 			}).then((isConfirm) => {
 				if (isConfirm) {
 					$.ajax({
-						url			: "<?php echo base_url('users/delete_users'); ?>",
+						url			: "<?php echo base_url('merk/delete'); ?>",
 						type		: "POST",
 						data		: {kode:kode},
 						success		: (res) => {

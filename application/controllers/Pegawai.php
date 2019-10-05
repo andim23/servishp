@@ -27,7 +27,7 @@ class Pegawai extends CI_Controller {
             $tbody[]    = $row['tempat'];
             $aksi       =   '
                             <button type="button" class="btn btn-icon btn-round btn-primary" id="detail_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-edit"></i></button>
-                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-kode="'.$row['kode'].'" title="Show Data"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-icon btn-round btn-danger" id="delete_data" data-kode="'.$row['kode'].'" title="Delete Data"><i class="fa fa-times"></i></button>
                             ';
             $tbody[]    = $aksi;
             $data[]     = $tbody;
